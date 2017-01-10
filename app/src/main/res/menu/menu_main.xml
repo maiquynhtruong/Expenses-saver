@@ -8,6 +8,15 @@
         android:title="@string/action_settings"
         app:showAsAction="never" />
     <item
-        android:title="Settings2"
+        android:id="@+id/action_export"
+        android:icon="@android:drawable/ic_menu_send"
+        android:title="@string/action_export"
+        android:orderInCategory="1"
+        />
+    <item
+        android:id="@+id/action_restart"
+        android:icon="@drawable/ic_action_reset_light"
+        android:title="@string/action_restart"
+        android:orderInCategory="2"
         />
 </menu>
