@@ -1,6 +1,7 @@
 package com.android.mqtruong.expensessaver;
 
 import android.content.Context;
+import android.icu.text.NumberFormat;
 import android.text.Layout;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -12,10 +13,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.Formatter;
+import java.util.Locale;
 
 
 public class TallyAdapter extends BaseAdapter{
@@ -51,7 +51,8 @@ public class TallyAdapter extends BaseAdapter{
             public void onClick(View v) {
                 item_name.setText(tally.name + ": " + ++tally.value);
                 tally.amount += tally.steps;
-                item_value.setText("$" + String.valueOf(tally.amount));
+                String amount = String.format(Locale.US, "$%(,.2f", tally.amount);
+                item_value.setText(amount);
             }
         });
         decrement.setOnClickListener(new View.OnClickListener() {
@@ -59,7 +60,8 @@ public class TallyAdapter extends BaseAdapter{
             public void onClick(View v) {
                 item_name.setText(tally.name + ": " + --tally.value);
                 tally.amount -= tally.steps;
-                item_value.setText("$" + String.valueOf(tally.amount));
+                String amount = String.format(Locale.US, "$%(,.2f", tally.amount);
+                item_value.setText(amount);
             }
         });
         return root_view;
