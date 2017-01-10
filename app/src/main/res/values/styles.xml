@@ -32,4 +32,12 @@
         <item name="android:textSize">25sp</item>
     </style>
 
+    <style name="dialog_title_size">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="dialog_value_size">
+        <item name="android:textSize">15sp</item>
+    </style>
+
 </resources>
