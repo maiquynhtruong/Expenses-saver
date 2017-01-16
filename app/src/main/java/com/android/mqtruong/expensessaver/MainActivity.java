@@ -4,11 +4,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,9 +18,13 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-    SharedPreferences sharedPreferences;
+    SharedPreferences attributePreferences;
+    SharedPreferences namePreferences;
     ArrayList<Tally> tallyList;
     TallyAdapter adapter;
+    private static final String main = "MainActivity";
+    public static final String PREFERENCE_NAME = "name_pref";
+    public static final String PREFERENCE_ATTRIBUTE = "attr_pref";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +40,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        namePreferences = getSharedPreferences(PREFERENCE_NAME, MODE_PRIVATE);
+        attributePreferences = getSharedPreferences(PREFERENCE_ATTRIBUTE, MODE_PRIVATE);
         tallyList = new ArrayList<>();
 
         ListView tallyView = (ListView) findViewById(R.id.tally_list_view);
@@ -51,34 +56,45 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getTallies() {
-        Map<String, ?> dataMap = sharedPreferences.getAll();
+        Map<String, ?> nameMap = namePreferences.getAll();
 
-        if (tallyList.isEmpty() || dataMap.isEmpty()) {
+        if (nameMap.isEmpty()) {
+            Log.d(main, "getTallies(): tallyList is empty or dataMap is empty");
             addTally(new Tally("First Tally", Tally.DEFAULT_VALUE, Tally.DEFAULT_AMOUNT, Tally.DEFAULT_STEP));
         } else {
-            for (String name : dataMap.keySet()) {
-                int value = (Integer) dataMap.get(name + "_value");
-                double amount = (Double) dataMap.get(name + "_amount");
-                double step = (Double) dataMap.get(name + "_step");
+            Log.d(main, "add all the tallies to tallyList");
+            for (Map.Entry<String, ?> entry : nameMap.entrySet()) {
+                Log.d(main, "getTallies(): " + entry.getKey());
+                String name = entry.getKey();
+                int value = attributePreferences.getInt(name + "_value", 0);
+                double amount = attributePreferences.getFloat(name + "_amount", 0.0f);
+                double step = attributePreferences.getFloat(name + "_step", 0.0f);
                 tallyList.add(new Tally(name, value, amount, step));
             }
         }
     }
 
     public void addTally(Tally tally) {
+        Log.d(main, "addTally(): add a single tally");
         tallyList.add(tally);
         adapter.notifyDataSetChanged();
     }
 
     public void saveTallies() {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
+        Log.d(main, "saveTallies()");
+        SharedPreferences.Editor nameEditor = namePreferences.edit();
+        SharedPreferences.Editor attrEditor = attributePreferences.edit();
+        nameEditor.clear();
+        attrEditor.clear();
         for (Tally tally : tallyList) {
-            editor.putInt(tally.name + "_value", tally.value);
-            editor.putFloat(tally.name + "_amount", (float) tally.amount);
-            editor.putFloat(tally.name + "_step", (float) tally.steps);
+            Log.d(main, "tally: " + tally.name);
+            nameEditor.putInt(tally.name, 0);
+            attrEditor.putInt(tally.name + "_value", tally.value);
+            attrEditor.putFloat(tally.name + "_amount", (float) tally.amount);
+            attrEditor.putFloat(tally.name + "_step", (float) tally.steps);
         }
-        editor.commit();
+        nameEditor.apply();
+        attrEditor.apply();
     }
 
     public void removeAllTallies() {
@@ -89,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d(main, "OnResume");
         getTallies();
         adapter.notifyDataSetChanged();
     }
@@ -96,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        Log.d(main, "onPause()");
         saveTallies();
     }
 
