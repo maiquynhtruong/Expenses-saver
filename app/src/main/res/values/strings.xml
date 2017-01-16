@@ -15,4 +15,5 @@
     <string name="add_dialog_text_view_value_hint">Value of counter</string>
     <string name="add_dialog_text_view_amount_hint">Current amount</string>
     <string name="add_dialog_text_view_steps_hint">How much is each item?</string>
+    <string name="toast_no_name">Name must not be empty!</string>
 </resources>
