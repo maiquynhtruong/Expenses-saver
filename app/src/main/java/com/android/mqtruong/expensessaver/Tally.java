@@ -3,7 +3,12 @@ package com.android.mqtruong.expensessaver;
 
 import android.widget.LinearLayout;
 
-public class Tally {// extends LinearLayout{
+import java.util.ArrayList;
+
+public class Tally {
+    public static final int DEFAULT_VALUE = 0;
+    public static final double DEFAULT_AMOUNT = 0.0;
+    public static final double DEFAULT_STEP = 1.0;
     int value;
     String name;
     double amount;
