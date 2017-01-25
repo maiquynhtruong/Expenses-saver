@@ -3,10 +3,11 @@
     <string name="action_settings">Settings</string>
     <string name="currency">$</string>
     <string name="action_export">Export all as CSV</string>
-    <string name="action_restart">Restart all values</string>
-    <string name="add_dialog_message">Add new counter</string>
-    <string name="add_dialog_positve">ADD</string>
-    <string name="add_dialog_negative">CANCEL</string>
+    <string name="action_reset_all">Restart all values</string>
+    <string name="action_remove_all">Remove all counters</string>
+    <string name="add_dialog_title">Add new counter</string>
+    <string name="add_dialog_positve">Add</string>
+    <string name="alert_dialog_negative">cancel</string>
     <string name="add_dialog_text_view_title">Title: </string>
     <string name="add_dialog_text_view_value">Value: </string>
     <string name="add_dialog_text_view_amount">Amount: </string>
@@ -16,4 +17,12 @@
     <string name="add_dialog_text_view_amount_hint">Current amount</string>
     <string name="add_dialog_text_view_steps_hint">How much is each item?</string>
     <string name="toast_no_name">Name must not be empty!</string>
+    <string name="menu_action_delete">Delete tally</string>
+    <string name="menu_action_reset">Reset all values</string>
+    <string name="menu_action_edit">Edit</string>
+    <string name="tally_options_title">Tally Options</string>
+    <string name="delete_dialog_title">Delete Tally</string>
+    <string name="delete_message_confirm">Are you sure want to delete the tally?</string>
+    <string name="delete_dialog_positive">Delete</string>
+    <string name="delete_done">Tally deleted</string>
 </resources>
