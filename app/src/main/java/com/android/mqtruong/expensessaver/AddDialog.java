@@ -26,7 +26,7 @@ public class AddDialog extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setView(view);
-        builder.setTitle(R.string.add_dialog_message)
+        builder.setTitle(R.string.add_dialog_title)
                 .setPositiveButton(R.string.add_dialog_positve, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -53,7 +53,7 @@ public class AddDialog extends DialogFragment {
                         }
                     }
                 })
-                .setNegativeButton(R.string.add_dialog_negative, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.alert_dialog_negative, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
