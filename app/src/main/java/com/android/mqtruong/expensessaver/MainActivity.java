@@ -1,23 +1,26 @@
 package com.android.mqtruong.expensessaver;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.DialogFragment;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnCreateContextMenuListener{
     SharedPreferences attributePreferences;
     SharedPreferences namePreferences;
     ArrayList<Tally> tallyList;
@@ -36,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createDialog();
+                showAddDialog();
             }
         });
 
@@ -47,12 +50,8 @@ public class MainActivity extends AppCompatActivity {
         ListView tallyView = (ListView) findViewById(R.id.tally_list_view);
         adapter = new TallyAdapter(this, tallyList);
         tallyView.setAdapter(adapter);
-    }
-
-    private void createDialog(){
-        AddDialog dialog = new AddDialog();
-        // show the dialog
-        dialog.show(getSupportFragmentManager(), AddDialog.TAG);
+        registerForContextMenu(tallyView);
+        tallyView.setOnCreateContextMenuListener(this);
     }
 
     public void getTallies() {
@@ -102,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
         addTally(new Tally("First Tally", Tally.DEFAULT_VALUE, Tally.DEFAULT_AMOUNT, Tally.DEFAULT_STEP));
     }
 
+
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -124,26 +125,118 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        Log.d(main, "onCrateOptionMenu()");
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.action_settings:
+                showSettings();
+                return true;
+            case R.id.action_reset_all:
+                showResetAllDialog();
+                return true;
+            case R.id.action_export:
+                showExportDialog();
+                return true;
+            case R.id.action_remove_all:
+                showRemoveAllDialog();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        System.out.print("Context Menu yo");
+        Log.d(main, "onCrateContextMenu()");
+        if (v.getId() == R.id.tally_list_view) {
+            Snackbar.make(findViewById(R.id.coordinator_layout), "long click", Snackbar.LENGTH_LONG);
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+            menu.setHeaderTitle(R.string.tally_options_title);
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.menu_item, menu);
+        }
+    }
 
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        Log.d(main, "onCrateContextItemSelected()");
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        switch (item.getItemId()) {
+            case R.id.action_delete:
+                showDeleteDialog();
+                return true;
+            case R.id.action_edit:
+                showEditDialog();
+                return true;
+            case R.id.action_reset:
+                showResetDialog();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
 
+    private void showAddDialog(){
+        AddDialog dialog = new AddDialog();
+        dialog.show(getSupportFragmentManager(), AddDialog.TAG);
+    }
+
+    private void showSettings() {
+
+    }
+
+    private void showExportDialog() {
+
+    }
+
+    private void showDeleteDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.delete_dialog_title)
+                .setMessage(R.string.delete_message_confirm)
+                .setPositiveButton(R.string.delete_dialog_positive, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Snackbar.make(findViewById(R.id.coordinator_layout), R.string.delete_done, Snackbar.LENGTH_LONG).show();
+                    }
+                }).setNegativeButton(R.string.alert_dialog_negative, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        }).create().show();
+    }
+
+    private void showEditDialog() {
+
+    }
+
+    private void showResetDialog() {
+
+    }
+
+    private void showResetAllDialog() {
+
+    }
+
+    private void showRemoveAllDialog() {
+        removeAllTallies();
+    }
 }
