@@ -14,7 +14,7 @@
             style="@style/dialog_title_size"
             />
         <EditText
-            android:id="@+id/add_dialog_edit_title"
+            android:id="@+id/edit_dialog_edit_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
@@ -27,7 +27,7 @@
             android:text="@string/add_dialog_text_view_value"
             style="@style/dialog_title_size"/>
         <EditText
-            android:id="@+id/add_dialog_edit_value"
+            android:id="@+id/edit_dialog_edit_value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="numberSigned"
@@ -41,7 +41,7 @@
             android:text="@string/add_dialog_text_view_amount"
             style="@style/dialog_title_size"/>
         <EditText
-            android:id="@+id/add_dialog_edit_amount"
+            android:id="@+id/edit_dialog_edit_amount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
@@ -54,7 +54,7 @@
             android:text="@string/add_dialog_text_view_step"
             style="@style/dialog_title_size"/>
         <EditText
-            android:id="@+id/add_dialog_edit_steps"
+            android:id="@+id/edit_dialog_edit_steps"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
