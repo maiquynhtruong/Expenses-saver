@@ -14,15 +14,14 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements View.OnCreateContextMenuListener{
-    SharedPreferences attributePreferences;
-    SharedPreferences namePreferences;
+    static SharedPreferences attributePreferences;
+    static SharedPreferences namePreferences;
     ArrayList<Tally> tallyList;
     TallyAdapter adapter;
     private static final String main = "MainActivity";
@@ -51,26 +50,6 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
         adapter = new TallyAdapter(this, tallyList);
         tallyView.setAdapter(adapter);
         registerForContextMenu(tallyView);
-        tallyView.setOnCreateContextMenuListener(this);
-    }
-
-    public void getTallies() {
-        Map<String, ?> nameMap = namePreferences.getAll();
-
-        if (nameMap.isEmpty()) {
-            Log.d(main, "getTallies(): tallyList is empty or dataMap is empty");
-            addTally(new Tally("First Tally", Tally.DEFAULT_VALUE, Tally.DEFAULT_AMOUNT, Tally.DEFAULT_STEP));
-        } else {
-            Log.d(main, "add all the tallies to tallyList");
-            for (Map.Entry<String, ?> entry : nameMap.entrySet()) {
-                Log.d(main, "getTallies(): " + entry.getKey());
-                String name = entry.getKey();
-                int value = attributePreferences.getInt(name + "_value", 0);
-                double amount = attributePreferences.getFloat(name + "_amount", 0.0f);
-                double step = attributePreferences.getFloat(name + "_step", 0.0f);
-                tallyList.add(new Tally(name, value, amount, step));
-            }
-        }
     }
 
     public void addTally(Tally tally) {
@@ -79,6 +58,22 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
         adapter.notifyDataSetChanged();
     }
 
+    public void updateTally(int index) {
+
+    }
+    public void removeTally(int index) {
+        Log.d(main, "removeTally(): remove a single tally at index " + index);
+        tallyList.remove(index);
+        adapter.notifyDataSetChanged();
+    }
+
+    public void resetTally(int index) {
+        Tally tally = tallyList.get(index);
+        tally.value = Tally.DEFAULT_VALUE;
+        tally.amount = Tally.DEFAULT_AMOUNT;
+        tally.steps = Tally.DEFAULT_STEP;
+        adapter.notifyDataSetChanged();
+    }
     public void saveTallies() {
         Log.d(main, "saveTallies()");
         SharedPreferences.Editor nameEditor = namePreferences.edit();
@@ -101,6 +96,24 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
         addTally(new Tally("First Tally", Tally.DEFAULT_VALUE, Tally.DEFAULT_AMOUNT, Tally.DEFAULT_STEP));
     }
 
+    public void getTallies() {
+        Map<String, ?> nameMap = namePreferences.getAll();
+
+        if (nameMap.isEmpty()) {
+            Log.d(main, "getTallies(): tallyList is empty or dataMap is empty");
+            addTally(new Tally("First Tally", Tally.DEFAULT_VALUE, Tally.DEFAULT_AMOUNT, Tally.DEFAULT_STEP));
+        } else {
+            Log.d(main, "add all the tallies to tallyList");
+            for (Map.Entry<String, ?> entry : nameMap.entrySet()) {
+                Log.d(main, "getTallies(): " + entry.getKey());
+                String name = entry.getKey();
+                int value = attributePreferences.getInt(name + "_value", 0);
+                double amount = attributePreferences.getFloat(name + "_amount", 0.0f);
+                double step = attributePreferences.getFloat(name + "_step", 0.0f);
+                tallyList.add(new Tally(name, value, amount, step));
+            }
+        }
+    }
 
 
     @Override
@@ -164,7 +177,6 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        System.out.print("Context Menu yo");
         Log.d(main, "onCrateContextMenu()");
         if (v.getId() == R.id.tally_list_view) {
             Snackbar.make(findViewById(R.id.coordinator_layout), "long click", Snackbar.LENGTH_LONG);
@@ -181,13 +193,13 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
             case R.id.action_delete:
-                showDeleteDialog();
+                showDeleteDialog(info.position);
                 return true;
             case R.id.action_edit:
-                showEditDialog();
+                showEditDialog(info.position);
                 return true;
             case R.id.action_reset:
-                showResetDialog();
+                showResetDialog(info.position);
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -207,13 +219,14 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
 
     }
 
-    private void showDeleteDialog() {
+    private void showDeleteDialog(final int index) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.delete_dialog_title)
                 .setMessage(R.string.delete_message_confirm)
                 .setPositiveButton(R.string.delete_dialog_positive, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        removeTally(index);
                         Snackbar.make(findViewById(R.id.coordinator_layout), R.string.delete_done, Snackbar.LENGTH_LONG).show();
                     }
                 }).setNegativeButton(R.string.alert_dialog_negative, new DialogInterface.OnClickListener() {
@@ -224,16 +237,35 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
         }).create().show();
     }
 
-    private void showEditDialog() {
+    private void showEditDialog(int index) {
+        EditDialog editDialog = new EditDialog();
+        Bundle bundle = new Bundle();
+        bundle.putInt("index", index);
+        editDialog.setArguments(bundle);
+        editDialog.show(getSupportFragmentManager(), EditDialog.TAG);
 
     }
 
-    private void showResetDialog() {
-
+    private void showResetDialog(final int index) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.reset_dialog_title)
+                .setMessage(R.string.reset_dialog_confirm)
+                .setPositiveButton(R.string.reset_dialog_positive, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        resetTally(index);
+                        Snackbar.make(findViewById(R.id.coordinator_layout), R.string.reset_done, Snackbar.LENGTH_LONG).show();
+                    }
+                })
+                .setNegativeButton(R.string.alert_dialog_negative, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                }).create().show();
     }
 
     private void showResetAllDialog() {
-
     }
 
     private void showRemoveAllDialog() {
