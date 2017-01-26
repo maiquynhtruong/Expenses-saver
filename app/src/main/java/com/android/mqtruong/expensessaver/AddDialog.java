@@ -27,7 +27,7 @@ public class AddDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setView(view);
         builder.setTitle(R.string.add_dialog_title)
-                .setPositiveButton(R.string.add_dialog_positve, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.add_dialog_positive, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String tallyName = name.getText().toString();
