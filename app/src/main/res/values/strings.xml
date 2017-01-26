@@ -6,8 +6,8 @@
     <string name="action_reset_all">Restart all values</string>
     <string name="action_remove_all">Remove all counters</string>
     <string name="add_dialog_title">Add new counter</string>
-    <string name="add_dialog_positve">Add</string>
-    <string name="alert_dialog_negative">cancel</string>
+    <string name="add_dialog_positive">Add</string>
+    <string name="alert_dialog_negative">Cancel</string>
     <string name="add_dialog_text_view_title">Title: </string>
     <string name="add_dialog_text_view_value">Value: </string>
     <string name="add_dialog_text_view_amount">Amount: </string>
@@ -22,7 +22,13 @@
     <string name="menu_action_edit">Edit</string>
     <string name="tally_options_title">Tally Options</string>
     <string name="delete_dialog_title">Delete Tally</string>
-    <string name="delete_message_confirm">Are you sure want to delete the tally?</string>
+    <string name="delete_message_confirm">Are you sure want to delete this tally?</string>
     <string name="delete_dialog_positive">Delete</string>
     <string name="delete_done">Tally deleted</string>
+    <string name="edit_dialog_title">Edit Tally</string>
+    <string name="edit_dialog_positive">Save</string>
+    <string name="reset_dialog_title">Reset All</string>
+    <string name="reset_dialog_confirm">Are you sure want to reset all values?</string>
+    <string name="reset_dialog_positive">Reset</string>
+    <string name="reset_done">Tally reset</string>
 </resources>
