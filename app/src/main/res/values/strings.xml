@@ -43,4 +43,12 @@
     <string name="export_dialog_confirm">Are you sure want to export all tallies to your phone's memory?</string>
     <string name="export_dialog_positive">Export</string>
     <string name="export_done">All values have been exported</string>
+    <string name="settings_group_controls">Controls</string>
+    <string name="settings_controls_vibration_title">Turn on vibration</string>
+    <string name="settings_controls_vibration_summary">Vibrate on changes</string>
+    <string name="settings_controls_sounds_title">Turn on sounds</string>
+    <string name="settings_controls_sounds_summary">Play sounds</string>
+    <string name="settings_group_other">Other</string>
+    <string name="settings_other_version_title">Version</string>
+    <string name="settings_other_version_summary">Unknown</string>
 </resources>
