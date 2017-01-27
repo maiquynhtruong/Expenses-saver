@@ -31,8 +31,16 @@
     <string name="reset_dialog_confirm">Are you sure want to reset all values?</string>
     <string name="reset_dialog_positive">Reset</string>
     <string name="reset_done">Tally reset</string>
-    <string name="restart_all_title">Restart all</string>
-    <string name="restart_all_confirm">Are you sure want to restart all tallies?</string>
-    <string name="remove_all_title">Remove all</string>
-    <string name="remove_all_confirm">Are you sure want to remove all the tallies?</string>
+    <string name="reset_all_dialog_title">Restart all</string>
+    <string name="reset_all_dialog_confirm">Are you sure want to restart all tallies?</string>
+    <string name="reset_all_dialog_positive">Reset</string>
+    <string name="reset_all_done">All tallies reset</string>
+    <string name="remove_all_dialog_title">Remove all</string>
+    <string name="remove_all_dialog_confirm">Are you sure want to remove all the tallies?</string>
+    <string name="remove_all_dialog_positive">Delete all</string>
+    <string name="remove_all_done">Deleted all tallies</string>
+    <string name="export_dialog_title">Export data</string>
+    <string name="export_dialog_confirm">Are you sure want to export all tallies to your phone's memory?</string>
+    <string name="export_dialog_positive">Export</string>
+    <string name="export_done">All values have been exported</string>
 </resources>
