@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 public class EditDialog extends DialogFragment {
     public static final String TAG = "EditDialog";
+    private static final String BUNDLE_ARGUMENTS_INDEX = "index";
     private int index;
 
     @NonNull
@@ -21,7 +22,7 @@ public class EditDialog extends DialogFragment {
         final MainActivity activity = (MainActivity) getActivity();
         View view = activity.getLayoutInflater().inflate(R.layout.fragment_edit_dialog, null);
 
-        index = getArguments().getInt("index");
+        index = getArguments().getInt(BUNDLE_ARGUMENTS_INDEX);
         Tally tally = activity.tallyList.get(index);
 
         final EditText name = (EditText) view.findViewById(R.id.edit_dialog_edit_title);
@@ -58,8 +59,8 @@ public class EditDialog extends DialogFragment {
                             if (!tallyAmountString.equals("")) {
                                 tallyStep = Double.valueOf(tallyStepString);
                             }
-                            index = 0;
-                            activity.updateTally(index);
+                            Tally editedTally = new Tally(tallyName, tallyValue, tallyAmount, tallyStep);
+                            activity.updateTally(index, editedTally);
                         }
                     }
                 }).setNegativeButton(R.string.alert_dialog_negative, new DialogInterface.OnClickListener() {
