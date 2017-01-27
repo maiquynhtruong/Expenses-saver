@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
     private static final String main = "MainActivity";
     public static final String PREFERENCE_NAME = "name_pref";
     public static final String PREFERENCE_ATTRIBUTE = "attr_pref";
+    private static final String BUNDLE_ARGUMENTS_INDEX = "index";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,70 +52,6 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
         tallyView.setAdapter(adapter);
         registerForContextMenu(tallyView);
     }
-
-    public void addTally(Tally tally) {
-        Log.d(main, "addTally(): add a single tally");
-        tallyList.add(tally);
-        adapter.notifyDataSetChanged();
-    }
-
-    public void updateTally(int index) {
-
-    }
-    public void removeTally(int index) {
-        Log.d(main, "removeTally(): remove a single tally at index " + index);
-        tallyList.remove(index);
-        adapter.notifyDataSetChanged();
-    }
-
-    public void resetTally(int index) {
-        Tally tally = tallyList.get(index);
-        tally.value = Tally.DEFAULT_VALUE;
-        tally.amount = Tally.DEFAULT_AMOUNT;
-        tally.steps = Tally.DEFAULT_STEP;
-        adapter.notifyDataSetChanged();
-    }
-    public void saveTallies() {
-        Log.d(main, "saveTallies()");
-        SharedPreferences.Editor nameEditor = namePreferences.edit();
-        SharedPreferences.Editor attrEditor = attributePreferences.edit();
-        nameEditor.clear();
-        attrEditor.clear();
-        for (Tally tally : tallyList) {
-            Log.d(main, "tally: " + tally.name);
-            nameEditor.putInt(tally.name, 0);
-            attrEditor.putInt(tally.name + "_value", tally.value);
-            attrEditor.putFloat(tally.name + "_amount", (float) tally.amount);
-            attrEditor.putFloat(tally.name + "_step", (float) tally.steps);
-        }
-        nameEditor.apply();
-        attrEditor.apply();
-    }
-
-    public void removeAllTallies() {
-        tallyList.clear();
-        addTally(new Tally("First Tally", Tally.DEFAULT_VALUE, Tally.DEFAULT_AMOUNT, Tally.DEFAULT_STEP));
-    }
-
-    public void getTallies() {
-        Map<String, ?> nameMap = namePreferences.getAll();
-
-        if (nameMap.isEmpty()) {
-            Log.d(main, "getTallies(): tallyList is empty or dataMap is empty");
-            addTally(new Tally("First Tally", Tally.DEFAULT_VALUE, Tally.DEFAULT_AMOUNT, Tally.DEFAULT_STEP));
-        } else {
-            Log.d(main, "add all the tallies to tallyList");
-            for (Map.Entry<String, ?> entry : nameMap.entrySet()) {
-                Log.d(main, "getTallies(): " + entry.getKey());
-                String name = entry.getKey();
-                int value = attributePreferences.getInt(name + "_value", 0);
-                double amount = attributePreferences.getFloat(name + "_amount", 0.0f);
-                double step = attributePreferences.getFloat(name + "_step", 0.0f);
-                tallyList.add(new Tally(name, value, amount, step));
-            }
-        }
-    }
-
 
     @Override
     protected void onResume() {
@@ -216,7 +153,21 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
     }
 
     private void showExportDialog() {
-
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.export_dialog_title)
+                .setMessage(R.string.export_dialog_confirm)
+                .setPositiveButton(R.string.export_dialog_positive, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        exportValues();
+                        Snackbar.make(findViewById(R.id.coordinator_layout), R.string.export_done, Snackbar.LENGTH_LONG);
+                    }
+                }).setNegativeButton(R.string.alert_dialog_negative, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        }).create().show();
     }
 
     private void showDeleteDialog(final int index) {
@@ -240,10 +191,9 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
     private void showEditDialog(int index) {
         EditDialog editDialog = new EditDialog();
         Bundle bundle = new Bundle();
-        bundle.putInt("index", index);
+        bundle.putInt(BUNDLE_ARGUMENTS_INDEX, index);
         editDialog.setArguments(bundle);
         editDialog.show(getSupportFragmentManager(), EditDialog.TAG);
-
     }
 
     private void showResetDialog(final int index) {
@@ -266,9 +216,118 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
     }
 
     private void showResetAllDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.reset_dialog_title)
+                .setMessage(R.string.reset_dialog_confirm)
+                .setPositiveButton(R.string.reset_all_dialog_positive, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        resetAllTallies();
+                        Snackbar.make(findViewById(R.id.coordinator_layout), R.string.reset_all_done, Snackbar.LENGTH_LONG).show();
+                    }
+                }).setNegativeButton(R.string.alert_dialog_negative, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        }).create().show();
     }
 
     private void showRemoveAllDialog() {
-        removeAllTallies();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.reset_dialog_title)
+                .setMessage(R.string.reset_dialog_confirm)
+                .setPositiveButton(R.string.reset_all_dialog_positive, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        removeAllTallies();
+                        Snackbar.make(findViewById(R.id.coordinator_layout), R.string.reset_all_done, Snackbar.LENGTH_LONG).show();
+                    }
+                }).setNegativeButton(R.string.alert_dialog_negative, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        }).create().show();
+    }
+
+    public void addTally(Tally tally) {
+        Log.d(main, "addTally(): add a single tally");
+        tallyList.add(tally);
+        adapter.notifyDataSetChanged();
+    }
+
+    public void updateTally(int index, Tally newTally) {
+        Tally toBeEdited = tallyList.get(index);
+        toBeEdited.name = newTally.name;
+        toBeEdited.value = newTally.value;
+        toBeEdited.amount = newTally.amount;
+        toBeEdited.steps = newTally.steps;
+        adapter.notifyDataSetChanged();
+    }
+    public void removeTally(int index) {
+        Log.d(main, "removeTally(): remove a single tally at index " + index);
+        tallyList.remove(index);
+        adapter.notifyDataSetChanged();
+    }
+
+    public void resetTally(int index) {
+        Tally tally = tallyList.get(index);
+        tally.value = Tally.DEFAULT_VALUE;
+        tally.amount = Tally.DEFAULT_AMOUNT;
+        adapter.notifyDataSetChanged();
+    }
+
+    public void resetAllTallies() {
+        for (int i = 0; i < tallyList.size(); i++) {
+            Tally tally = tallyList.get(i);
+            tally.value = Tally.DEFAULT_VALUE;
+            tally.amount = Tally.DEFAULT_AMOUNT;
+        }
+        adapter.notifyDataSetChanged();
+    }
+    public void saveTallies() {
+        Log.d(main, "saveTallies()");
+        SharedPreferences.Editor nameEditor = namePreferences.edit();
+        SharedPreferences.Editor attrEditor = attributePreferences.edit();
+        nameEditor.clear();
+        attrEditor.clear();
+        for (Tally tally : tallyList) {
+            Log.d(main, "tally: " + tally.name);
+            nameEditor.putInt(tally.name, 0);
+            attrEditor.putInt(tally.name + "_value", tally.value);
+            attrEditor.putFloat(tally.name + "_amount", (float) tally.amount);
+            attrEditor.putFloat(tally.name + "_step", (float) tally.steps);
+        }
+        nameEditor.apply();
+        attrEditor.apply();
+    }
+
+    public void removeAllTallies() {
+        tallyList.clear();
+        addTally(new Tally("First Tally", Tally.DEFAULT_VALUE, Tally.DEFAULT_AMOUNT, Tally.DEFAULT_STEP));
+    }
+
+    public void getTallies() {
+        Map<String, ?> nameMap = namePreferences.getAll();
+
+        if (nameMap.isEmpty()) {
+            Log.d(main, "getTallies(): tallyList is empty or dataMap is empty");
+            addTally(new Tally("First Tally", Tally.DEFAULT_VALUE, Tally.DEFAULT_AMOUNT, Tally.DEFAULT_STEP));
+        } else {
+            Log.d(main, "add all the tallies to tallyList");
+            for (Map.Entry<String, ?> entry : nameMap.entrySet()) {
+                Log.d(main, "getTallies(): " + entry.getKey());
+                String name = entry.getKey();
+                int value = attributePreferences.getInt(name + "_value", 0);
+                double amount = attributePreferences.getFloat(name + "_amount", 0.0f);
+                double step = attributePreferences.getFloat(name + "_step", 0.0f);
+                tallyList.add(new Tally(name, value, amount, step));
+            }
+        }
+    }
+
+    public void exportValues() {
+
     }
 }
