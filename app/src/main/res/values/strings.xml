@@ -31,4 +31,8 @@
     <string name="reset_dialog_confirm">Are you sure want to reset all values?</string>
     <string name="reset_dialog_positive">Reset</string>
     <string name="reset_done">Tally reset</string>
+    <string name="restart_all_title">Restart all</string>
+    <string name="restart_all_confirm">Are you sure want to restart all tallies?</string>
+    <string name="remove_all_title">Remove all</string>
+    <string name="remove_all_confirm">Are you sure want to remove all the tallies?</string>
 </resources>
