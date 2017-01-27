@@ -40,7 +40,7 @@
     <string name="remove_all_dialog_positive">Delete all</string>
     <string name="remove_all_done">Deleted all tallies</string>
     <string name="export_dialog_title">Export data</string>
-    <string name="export_dialog_confirm">Are you sure want to export all tallies to your phone's memory?</string>
+    <string name="export_dialog_confirm">Are you sure want to export all tallies to your phones memory?</string>
     <string name="export_dialog_positive">Export</string>
     <string name="export_done">All values have been exported</string>
     <string name="settings_group_controls">Controls</string>
