@@ -15,7 +15,6 @@
     <PreferenceCategory android:title="@string/settings_group_about">
         <Preference
             android:title="@string/settings_about_developer_title"
-            android:summary="@string/settings_about_developer_summary"
             android:key="developer"/>
         <Preference
             android:title="@string/settings_about_version_title"
