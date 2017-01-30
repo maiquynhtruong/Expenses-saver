@@ -100,9 +100,6 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
             case R.id.action_reset_all:
                 showResetAllDialog();
                 return true;
-            case R.id.action_export:
-                showExportDialog();
-                return true;
             case R.id.action_remove_all:
                 showRemoveAllDialog();
                 return true;
@@ -149,25 +146,8 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
     }
 
     private void showSettings() {
-
-    }
-
-    private void showExportDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.export_dialog_title)
-                .setMessage(R.string.export_dialog_confirm)
-                .setPositiveButton(R.string.export_dialog_positive, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        exportValues();
-                        Snackbar.make(findViewById(R.id.coordinator_layout), R.string.export_done, Snackbar.LENGTH_LONG);
-                    }
-                }).setNegativeButton(R.string.alert_dialog_negative, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        }).create().show();
+        getFragmentManager().beginTransaction().replace(R.id.coordinator_layout, new SettingsFragment())
+                .commit();
     }
 
     private void showDeleteDialog(final int index) {
@@ -325,9 +305,5 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
                 tallyList.add(new Tally(name, value, amount, step));
             }
         }
-    }
-
-    public void exportValues() {
-
     }
 }
