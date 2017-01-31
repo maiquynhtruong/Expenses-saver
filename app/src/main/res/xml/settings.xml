@@ -4,24 +4,29 @@
     <PreferenceCategory android:title="@string/settings_group_controls">
         <CheckBoxPreference android:title="@string/settings_controls_vibration_title"
             android:summary="@string/settings_controls_vibration_summary"
+            android:textColor="#000"
             android:defaultValue="true"
             android:key="vibrationOn"/>
         <CheckBoxPreference
             android:title="@string/settings_controls_sounds_title"
             android:summary="@string/settings_controls_sounds_summary"
+            android:textColor="#000"
             android:defaultValue="false"
             android:key="soundOn" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_group_about">
         <Preference
             android:title="@string/settings_about_developer_title"
+            android:textColor="#000"
             android:key="developer"/>
         <Preference
             android:title="@string/settings_about_version_title"
             android:summary="@string/settings_unknown"
+            android:textColor="#000"
             android:key="version"/>
         <Preference
             android:title="@string/settings_about_rate_app_title"
+            android:textColor="#000"
             android:key="rate"/>
     </PreferenceCategory>
 </PreferenceScreen>
