@@ -82,15 +82,12 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View dialog_layout = inflater.inflate(R.layout.dialog_about, null);
         TextView textView_about_name = (TextView) dialog_layout.findViewById(R.id.about_name);
-//        textView_about_name.setText(Html.fromHtml(getResources().getString(R.string.settings_about_developer_name)));
-        textView_about_name.setText(Html.fromHtml("<b>Developer: </b> Mai Truong"));
+        textView_about_name.setText(Html.fromHtml(getActivity().getResources().getString(R.string.settings_about_developer_name)));
         TextView textView_about_email = (TextView) dialog_layout.findViewById(R.id.about_email);
-//        textView_about_email.setText(Html.fromHtml(getResources().getString(R.string.settings_about_developer_email)));
-        textView_about_email.setText(Html.fromHtml("<b><u>Email: </u></b>maitruong2801@gmail.com"));
+        textView_about_email.setText(Html.fromHtml(getActivity().getResources().getString(R.string.settings_about_developer_email)));
         TextView textView_about_github = (TextView) dialog_layout.findViewById(R.id.about_github_link);
-//        textView_about_github.setText(Html.fromHtml(getResources().getString(R.string.settings_about_developer_github)));
-        textView_about_github.setText(Html.fromHtml("<b><u>Github</u></b>:\n" +
-                "        <a href=\"https://github.com/maiquynhtruong/expenses-saver\"> Expenses Saver</a>"));
+        textView_about_github.setText(Html.fromHtml(getActivity().getResources().getString(R.string.settings_about_developer_github)));
+        textView_about_github.setMovementMethod(LinkMovementMethod.getInstance());
         builder.setView(dialog_layout);
         builder.setPositiveButton(R.string.settings_about_developer_positive, new DialogInterface.OnClickListener() {
             @Override
