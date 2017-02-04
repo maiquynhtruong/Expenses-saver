@@ -7,18 +7,12 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,8 +29,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FloatingActionButton fab = (FloatingActionButton) ((MainActivity) getActivity()).findViewById(R.id.fab);
-        fab.hide();
+        MainActivity.fab.hide();
         addPreferencesFromResource(R.xml.settings);
         findPreference(KEY_VERSION).setSummary(getAppVersion());
         findPreference(KEY_DEVELOPER).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -48,7 +41,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         });
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         setHasOptionsMenu(true);
-
+        ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
