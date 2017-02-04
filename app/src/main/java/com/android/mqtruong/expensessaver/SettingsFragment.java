@@ -11,6 +11,7 @@ import android.preference.PreferenceActivity;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
@@ -34,6 +35,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FloatingActionButton fab = (FloatingActionButton) ((MainActivity) getActivity()).findViewById(R.id.fab);
+        fab.hide();
         addPreferencesFromResource(R.xml.settings);
         findPreference(KEY_VERSION).setSummary(getAppVersion());
         findPreference(KEY_DEVELOPER).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -44,6 +47,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             }
         });
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        setHasOptionsMenu(true);
 
     }
 
@@ -61,12 +65,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        } else {
-            Log.d(TAG, "actionBar is null");
-        }
+
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -75,6 +74,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         super.onActivityCreated(savedInstanceState);
         getView().setBackgroundColor(Color.WHITE);
         getView().setClickable(true);
+
     }
 
     @Override
