@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -51,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
         adapter = new TallyAdapter(this, tallyList);
         tallyView.setAdapter(adapter);
         registerForContextMenu(tallyView);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
     }
 
     private void showSettings() {
-        getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment())
+        getFragmentManager().beginTransaction().replace(R.id.preference_layout, new SettingsFragment())
                 .addToBackStack(null).commit();
     }
 
@@ -157,6 +157,7 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
             this.finish();
         } else {
             getFragmentManager().popBackStack();
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         }
     }
 
