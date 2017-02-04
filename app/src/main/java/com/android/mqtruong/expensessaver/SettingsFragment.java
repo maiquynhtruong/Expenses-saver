@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -24,6 +23,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     public static final String TAG = "SettingsFragment";
     public static final String KEY_VERSION = "version";
     public static final String KEY_DEVELOPER = "developer";
+    public static final String SOUND = "soundOn";
+    public static final String VIBRATION = "vibrationOn";
     public static SharedPreferences prefs;
 
     @Override
