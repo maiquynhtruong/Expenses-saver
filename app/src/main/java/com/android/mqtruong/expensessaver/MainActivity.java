@@ -1,8 +1,11 @@
 package com.android.mqtruong.expensessaver;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
@@ -21,8 +24,10 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements View.OnCreateContextMenuListener{
-    static SharedPreferences attributePreferences;
-    static SharedPreferences namePreferences;
+    public static SharedPreferences attributePreferences;
+    public static SharedPreferences namePreferences;
+    private SharedPreferences settings;
+    private Vibrator vibrator;
     ArrayList<Tally> tallyList;
     TallyAdapter adapter;
     private static final String main = "MainActivity";
@@ -50,8 +55,11 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
         attributePreferences = getSharedPreferences(PREFERENCE_ATTRIBUTE, MODE_PRIVATE);
         tallyList = new ArrayList<>();
 
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        settings = PreferenceManager.getDefaultSharedPreferences(this);
+
         ListView tallyView = (ListView) findViewById(R.id.tally_list_view);
-        adapter = new TallyAdapter(this, tallyList);
+        adapter = new TallyAdapter(this, tallyList, this);
         tallyView.setAdapter(adapter);
         registerForContextMenu(tallyView);
     }
@@ -143,16 +151,6 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
         }
     }
 
-    private void showAddDialog(){
-        AddDialog dialog = new AddDialog();
-        dialog.show(getSupportFragmentManager(), AddDialog.TAG);
-    }
-
-    private void showSettings() {
-        getFragmentManager().beginTransaction().replace(R.id.preference_layout, new SettingsFragment())
-                .addToBackStack(null).commit();
-    }
-
     @Override
     public void onBackPressed() {
         if (getFragmentManager().getBackStackEntryCount() == 0) {
@@ -162,6 +160,22 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             fab.show();
         }
+    }
+
+    public void vibrate(long duration) {
+        if (settings.getBoolean(SettingsFragment.VIBRATION, true)) {
+            vibrator.vibrate(duration);
+        }
+    }
+
+    private void showAddDialog(){
+        AddDialog dialog = new AddDialog();
+        dialog.show(getSupportFragmentManager(), AddDialog.TAG);
+    }
+
+    private void showSettings() {
+        getFragmentManager().beginTransaction().replace(R.id.preference_layout, new SettingsFragment())
+                .addToBackStack(null).commit();
     }
 
     private void showDeleteDialog(final int index) {
