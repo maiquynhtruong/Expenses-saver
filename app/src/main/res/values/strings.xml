@@ -49,7 +49,7 @@
     <string name="settings_about_developer_title">Developer</string>
     <string name="settings_about_developer_name"><b><u>Developer: </u></b> Mai Truong</string>
     <string name="settings_about_developer_email"><b><u>Email: </u></b>maitruong2801@gmail.com</string>
-    <string name="settings_about_developer_github"><b><u>Github</u></b>: <a href="https://github.com/maiquynhtruong/expenses-saver">Expenses Saver</a></string>
+    <string name="settings_about_developer_github"><b><u>Github</u></b>: <a href="https://github.com/maiquynhtruong/Expenses-saver">https://github.com/maiquynhtruong/Expenses-saver</a></string>
     <string name="settings_about_developer_positive">Close</string>
     <string name="settings_about_rate_app_title">Rate this app</string>
 
