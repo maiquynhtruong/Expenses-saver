@@ -9,6 +9,8 @@ public class Tally {
     public static final int DEFAULT_VALUE = 0;
     public static final double DEFAULT_AMOUNT = 0.0;
     public static final double DEFAULT_STEP = 1.0;
+    public static final int MIN_VALUE = 0;
+    public static final int MAX_VALUE = 9999;
     int value;
     String name;
     double amount;
