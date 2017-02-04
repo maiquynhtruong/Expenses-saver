@@ -30,10 +30,10 @@ public class TallyAdapter extends BaseAdapter{
     private static final int DEFAULT_VIBRATION_DURATION = 30; // milliseconds
     MainActivity activity;
 
-    public TallyAdapter(Context c, ArrayList<Tally> tallyList) {
+    public TallyAdapter(Context c, ArrayList<Tally> tallyList, MainActivity activity) {
         inflater = LayoutInflater.from(c);
         this.tallyList = tallyList;
-        activity = new MainActivity();
+        this.activity = activity;
     }
 
     @Override
@@ -45,13 +45,16 @@ public class TallyAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         root_view = (LinearLayout) inflater.inflate(R.layout.list_item, null);
-        Button increment = (Button) root_view.findViewById(R.id.increment_btn);
-        Button decrement = (Button) root_view.findViewById(R.id.decrement_btn);
+        final Button increment = (Button) root_view.findViewById(R.id.increment_btn);
+        final Button decrement = (Button) root_view.findViewById(R.id.decrement_btn);
         final TextView item_name = (TextView) root_view.findViewById(R.id.tally_name);
         final TextView item_value = (TextView) root_view.findViewById(R.id.tally_value);
         final Tally tally = tallyList.get(position);
         item_name.setText(tally.name + ": " + tally.value);
-        item_value.setText("$" + tally.amount);
+        String amount = String.format(Locale.US, "$%(,.2f", tally.amount);
+        item_value.setText(amount);
+
+        checkButtons(tally.value, increment, decrement);
         increment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,6 +64,8 @@ public class TallyAdapter extends BaseAdapter{
                 item_value.setText(amount);
                 activity.vibrate(DEFAULT_VIBRATION_DURATION);
 
+                /** check the state of the buttons */
+                checkButtons(tally.value, increment, decrement);
             }
         });
         decrement.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +76,9 @@ public class TallyAdapter extends BaseAdapter{
                 String amount = String.format(Locale.US, "$%(,.2f", tally.amount);
                 item_value.setText(amount);
                 activity.vibrate(DEFAULT_VIBRATION_DURATION + 10);
+
+                /** check the state of the buttons */
+                checkButtons(tally.value, increment, decrement);
             }
         });
         return root_view;
@@ -86,4 +94,10 @@ public class TallyAdapter extends BaseAdapter{
         return position;
     }
 
+    private void checkButtons(int value, Button increment, Button decrement) {
+        if (value >= Tally.MAX_VALUE) increment.setEnabled(false);
+        else increment.setEnabled(true);
+        if (value <= Tally.MIN_VALUE) decrement.setEnabled(false);
+        else decrement.setEnabled(true);
+    }
 }
