@@ -1,7 +1,9 @@
 package com.android.mqtruong.expensessaver;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.icu.text.NumberFormat;
+import android.os.Vibrator;
 import android.text.Layout;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -24,10 +26,14 @@ public class TallyAdapter extends BaseAdapter{
     LinearLayout root_view;
     LayoutInflater inflater;
     ArrayList<Tally> tallyList;
+    private Vibrator vibrator;
+    private static final int DEFAULT_VIBRATION_DURATION = 30; // milliseconds
+    MainActivity activity;
 
     public TallyAdapter(Context c, ArrayList<Tally> tallyList) {
         inflater = LayoutInflater.from(c);
         this.tallyList = tallyList;
+        activity = new MainActivity();
     }
 
     @Override
@@ -53,6 +59,8 @@ public class TallyAdapter extends BaseAdapter{
                 tally.amount += tally.steps;
                 String amount = String.format(Locale.US, "$%(,.2f", tally.amount);
                 item_value.setText(amount);
+                activity.vibrate(DEFAULT_VIBRATION_DURATION);
+
             }
         });
         decrement.setOnClickListener(new View.OnClickListener() {
@@ -62,6 +70,7 @@ public class TallyAdapter extends BaseAdapter{
                 tally.amount -= tally.steps;
                 String amount = String.format(Locale.US, "$%(,.2f", tally.amount);
                 item_value.setText(amount);
+                activity.vibrate(DEFAULT_VIBRATION_DURATION + 10);
             }
         });
         return root_view;
@@ -76,4 +85,5 @@ public class TallyAdapter extends BaseAdapter{
     public long getItemId(int position) {
         return position;
     }
+
 }
