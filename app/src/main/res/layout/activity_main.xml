@@ -23,18 +23,6 @@
     </android.support.design.widget.AppBarLayout>
 
     <!--include layout="@layout/content_main" /-->
-    <FrameLayout
-        android:id="@+id/preference_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ListView
-            android:id="@+id/tally_list_view"
-            android:layout_marginTop="?attr/actionBarSize"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        </ListView>
-    </FrameLayout>
 
 
     <android.support.design.widget.FloatingActionButton
@@ -44,6 +32,19 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_input_add" />
+
+    <FrameLayout
+        android:id="@+id/preference_layout"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ListView
+            android:id="@+id/tally_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </ListView>
+    </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>
 
