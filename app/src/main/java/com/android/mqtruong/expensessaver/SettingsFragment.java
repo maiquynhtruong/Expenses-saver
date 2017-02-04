@@ -11,10 +11,17 @@ import android.preference.PreferenceActivity;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener, SharedPreferences.OnSharedPreferenceChangeListener {
@@ -37,6 +44,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             }
         });
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
     }
 
     @Override
@@ -52,10 +60,31 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     }
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        } else {
+            Log.d(TAG, "actionBar is null");
+        }
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getView().setBackgroundColor(Color.WHITE);
         getView().setClickable(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                getActivity().onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -97,4 +126,5 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         });
         builder.create().show();
     }
+
 }
