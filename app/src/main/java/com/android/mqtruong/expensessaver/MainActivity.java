@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
         adapter = new TallyAdapter(this, tallyList);
         tallyView.setAdapter(adapter);
         registerForContextMenu(tallyView);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -146,8 +147,17 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
     }
 
     private void showSettings() {
-        getFragmentManager().beginTransaction().replace(R.id.coordinator_layout, new SettingsFragment())
-                .commit();
+        getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment())
+                .addToBackStack(null).commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() == 0) {
+            this.finish();
+        } else {
+            getFragmentManager().popBackStack();
+        }
     }
 
     private void showDeleteDialog(final int index) {
