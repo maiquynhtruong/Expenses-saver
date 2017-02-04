@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
     public static final String PREFERENCE_NAME = "name_pref";
     public static final String PREFERENCE_ATTRIBUTE = "attr_pref";
     private static final String BUNDLE_ARGUMENTS_INDEX = "index";
+    public static FloatingActionButton fab;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +37,8 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.show();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -158,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
         } else {
             getFragmentManager().popBackStack();
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            fab.show();
         }
     }
 
