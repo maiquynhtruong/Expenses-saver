@@ -1,7 +1,10 @@
 package com.android.mqtruong.expensessaver;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -11,14 +14,16 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import static android.media.AudioManager.ERROR;
+
 /**
  * Created by Raghav Sood
  * Link from Stack Overflow: http://stackoverflow.com/questions/14514579/how-to-implement-rate-it-feature-in-android-app
  */
 
 public class AppRater {
-    private final static String APP_TITLE = "App Name";// App Name
-    private final static String APP_PNAME = "com.example.name";// Package Name
+    private final static String APP_TITLE = "Expenses Saver";// App Name
+    private final static String APP_PNAME = "com.android.mqtruong.expensessaver";// Package Name
 
     private final static int DAYS_UNTIL_PROMPT = 3;//Min number of days
     private final static int LAUNCHES_UNTIL_PROMPT = 3;//Min number of launches
@@ -59,7 +64,7 @@ public class AppRater {
         ll.setOrientation(LinearLayout.VERTICAL);
 
         TextView tv = new TextView(mContext);
-        tv.setText("If you enjoy using " + APP_TITLE + ", please take a moment to rate it. Thanks for your support!");
+        tv.setText(mContext.getResources().getString(R.string.settings_about_rate_app_message) + " " + APP_TITLE + ".");
         tv.setWidth(240);
         tv.setPadding(4, 0, 4, 10);
         ll.addView(tv);
@@ -68,14 +73,19 @@ public class AppRater {
         b1.setText("Rate " + APP_TITLE);
         b1.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + APP_PNAME)));
-                dialog.dismiss();
+                try {
+                    mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + APP_PNAME)));
+                } catch (ActivityNotFoundException e) {
+                    showErrorDialog(mContext, editor);
+                } finally {
+                    dialog.dismiss();
+                }
             }
         });
         ll.addView(b1);
 
         Button b2 = new Button(mContext);
-        b2.setText("Remind me later");
+        b2.setText(R.string.settings_about_rate_app_remind);
         b2.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 dialog.dismiss();
@@ -84,7 +94,7 @@ public class AppRater {
         ll.addView(b2);
 
         Button b3 = new Button(mContext);
-        b3.setText("No, thanks");
+        b3.setText(R.string.settings_about_rate_app_no_thanks);
         b3.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 if (editor != null) {
@@ -98,5 +108,21 @@ public class AppRater {
 
         dialog.setContentView(ll);
         dialog.show();
+    }
+
+    public static void showErrorDialog(Context c, final SharedPreferences.Editor editor) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(c)
+                .setMessage(R.string.settings_about_rate_app_error_message)
+                .setPositiveButton(R.string.alert_dialog_positive, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (editor != null) {
+                            editor.putBoolean("dontshowagain", true);
+                            editor.commit();
+                        }
+                        dialog.dismiss();
+                    }
+                });
+        builder.create().show();
     }
 }
