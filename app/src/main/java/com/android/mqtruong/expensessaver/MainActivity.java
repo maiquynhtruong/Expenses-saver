@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
     public static final String PREFERENCE_ATTRIBUTE = "attr_pref";
     private static final String BUNDLE_ARGUMENTS_INDEX = "index";
     public static FloatingActionButton fab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
         adapter = new TallyAdapter(this, tallyList, this);
         tallyView.setAdapter(adapter);
         registerForContextMenu(tallyView);
+
+        AppRater.app_launched(this); /** Launch the rater for user rating**/
     }
 
     @Override
@@ -163,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
     }
 
     public void vibrate(long duration) {
-        if (settings.getBoolean(SettingsFragment.VIBRATION, true)) {
+        if (settings.getBoolean(SettingsFragment.KEY_VIBRATION, true)) {
             vibrator.vibrate(duration);
         }
     }
