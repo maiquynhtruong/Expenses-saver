@@ -23,7 +23,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     public static final String TAG = "SettingsFragment";
     public static final String KEY_VERSION = "version";
     public static final String KEY_DEVELOPER = "developer";
-    public static final String SOUND = "soundOn";
     public static final String VIBRATION = "vibrationOn";
     public static SharedPreferences prefs;
 
