@@ -7,13 +7,14 @@
     <string name="add_dialog_title">Add new counter</string>
     <string name="add_dialog_positive">Add</string>
     <string name="alert_dialog_negative">Cancel</string>
+    <string name="alert_dialog_positive">Okay</string>
     <string name="add_dialog_text_view_title">Title: </string>
     <string name="add_dialog_text_view_value">Value: </string>
     <string name="add_dialog_text_view_amount">Amount: </string>
     <string name="add_dialog_text_view_step">Steps: </string>
     <string name="add_dialog_text_view_title_hint">Name of counter</string>
-    <string name="add_dialog_text_view_value_hint">Value of counter</string>
-    <string name="add_dialog_text_view_amount_hint">Current amount</string>
+    <string name="add_dialog_text_view_value_hint">How many counters are there?</string>
+    <string name="add_dialog_text_view_amount_hint">Current value of all counters</string>
     <string name="add_dialog_text_view_steps_hint">How much is each item?</string>
     <string name="toast_no_name">Name must not be empty!</string>
     <string name="menu_action_delete">Delete counter</string>
@@ -52,5 +53,10 @@
     <string name="settings_about_developer_github"><b><u>Github</u></b>: <a href="https://github.com/maiquynhtruong/Expenses-saver">https://github.com/maiquynhtruong/Expenses-saver</a></string>
     <string name="settings_about_developer_positive">Close</string>
     <string name="settings_about_rate_app_title">Rate this app</string>
+    <string name="settings_about_rate_app_remind">Remind me later</string>
+    <string name="settings_about_rate_app_no_thanks">No, thanks</string>
+    <string name="settings_about_rate_app_message">If you enjoy using this app please take a moment to rate </string>
+    <string name="settings_about_rate_app_error_message">Cannot open Google play to rate app</string>
+
 
 </resources>
