@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 
 android {
-    
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
@@ -16,8 +15,8 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            debuggable true
-            signingConfig signingConfigs.config
+//            debuggable true
+//            signingConfig signingConfigs.config
         }
 //        debug {
 //            debuggable true
