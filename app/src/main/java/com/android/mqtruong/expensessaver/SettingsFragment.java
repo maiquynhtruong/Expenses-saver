@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -23,7 +24,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     public static final String TAG = "SettingsFragment";
     public static final String KEY_VERSION = "version";
     public static final String KEY_DEVELOPER = "developer";
-    public static final String VIBRATION = "vibrationOn";
+    public static final String KEY_VIBRATION = "vibrationOn";
+    public static final String KEY_RATE_APP = "rateApp";
     public static SharedPreferences prefs;
 
     @Override
@@ -39,9 +41,18 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 return true;
             }
         });
+        findPreference(KEY_RATE_APP).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                SharedPreferences prefs = getActivity().getSharedPreferences("apprater", 0);
+                SharedPreferences.Editor editor = prefs.edit();
+                AppRater.showRateDialog(getActivity(), editor);
+                return true;
+            }
+        });
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         setHasOptionsMenu(true);
-        ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
