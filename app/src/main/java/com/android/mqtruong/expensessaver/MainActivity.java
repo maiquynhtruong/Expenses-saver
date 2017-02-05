@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(main, "OnResume");
         getTallies();
         adapter.notifyDataSetChanged();
     }
@@ -78,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d(main, "onPause()");
         saveTallies();
     }
 
@@ -89,7 +87,6 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        Log.d(main, "onCrateOptionMenu()");
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
@@ -125,7 +122,6 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        Log.d(main, "onCrateContextMenu()");
         if (v.getId() == R.id.tally_list_view) {
             Snackbar.make(findViewById(R.id.coordinator_layout), "long click", Snackbar.LENGTH_LONG);
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
@@ -137,7 +133,6 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        Log.d(main, "onCrateContextItemSelected()");
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
             case R.id.action_delete:
@@ -263,7 +258,6 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
     }
 
     public void addTally(Tally tally) {
-        Log.d(main, "addTally(): add a single tally");
         tallyList.add(tally);
         adapter.notifyDataSetChanged();
     }
@@ -277,7 +271,6 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
         adapter.notifyDataSetChanged();
     }
     public void removeTally(int index) {
-        Log.d(main, "removeTally(): remove a single tally at index " + index);
         tallyList.remove(index);
         adapter.notifyDataSetChanged();
     }
@@ -298,7 +291,6 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
         adapter.notifyDataSetChanged();
     }
     public void saveTallies() {
-        Log.d(main, "saveTallies()");
         SharedPreferences.Editor nameEditor = namePreferences.edit();
         SharedPreferences.Editor attrEditor = attributePreferences.edit();
         nameEditor.clear();
@@ -323,10 +315,8 @@ public class MainActivity extends AppCompatActivity implements View.OnCreateCont
         Map<String, ?> nameMap = namePreferences.getAll();
 
         if (nameMap.isEmpty()) {
-            Log.d(main, "getTallies(): tallyList is empty or dataMap is empty");
             addTally(new Tally("First Tally", Tally.DEFAULT_VALUE, Tally.DEFAULT_AMOUNT, Tally.DEFAULT_STEP));
         } else {
-            Log.d(main, "add all the tallies to tallyList");
             for (Map.Entry<String, ?> entry : nameMap.entrySet()) {
                 Log.d(main, "getTallies(): " + entry.getKey());
                 String name = entry.getKey();
