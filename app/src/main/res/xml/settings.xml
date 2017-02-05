@@ -7,12 +7,6 @@
             android:textColor="#000"
             android:defaultValue="true"
             android:key="vibrationOn"/>
-        <CheckBoxPreference
-            android:title="@string/settings_controls_sounds_title"
-            android:summary="@string/settings_controls_sounds_summary"
-            android:textColor="#000"
-            android:defaultValue="false"
-            android:key="soundOn" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_group_about">
         <Preference
