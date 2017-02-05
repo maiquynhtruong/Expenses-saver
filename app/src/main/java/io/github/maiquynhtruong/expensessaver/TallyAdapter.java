@@ -1,12 +1,7 @@
-package com.android.mqtruong.expensessaver;
+package io.github.maiquynhtruong.expensessaver;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.icu.text.NumberFormat;
 import android.os.Vibrator;
-import android.text.Layout;
-import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Formatter;
 import java.util.Locale;
 
 

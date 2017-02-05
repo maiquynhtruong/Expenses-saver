@@ -1,9 +1,5 @@
-package com.android.mqtruong.expensessaver;
+package io.github.maiquynhtruong.expensessaver;
 
-
-import android.widget.LinearLayout;
-
-import java.util.ArrayList;
 
 public class Tally {
     public static final int DEFAULT_VALUE = 0;

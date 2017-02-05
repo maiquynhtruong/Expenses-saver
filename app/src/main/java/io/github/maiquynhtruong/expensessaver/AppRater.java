@@ -1,4 +1,4 @@
-package com.android.mqtruong.expensessaver;
+package io.github.maiquynhtruong.expensessaver;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -13,8 +13,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import static android.media.AudioManager.ERROR;
 
 /**
  * Created by Raghav Sood

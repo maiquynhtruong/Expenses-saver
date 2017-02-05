@@ -1,4 +1,4 @@
-package com.android.mqtruong.expensessaver;
+package io.github.mqtruong.expensessaver;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

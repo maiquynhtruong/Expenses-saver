@@ -1,4 +1,4 @@
-package com.android.mqtruong.expensessaver;
+package io.github.maiquynhtruong.expensessaver;
 
 import android.app.AlertDialog;
 import android.content.Context;

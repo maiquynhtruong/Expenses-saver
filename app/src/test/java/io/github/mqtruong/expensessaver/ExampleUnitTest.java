@@ -1,4 +1,4 @@
-package com.android.mqtruong.expensessaver;
+package io.github.mqtruong.expensessaver;
 
 import org.junit.Test;
 
